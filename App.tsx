@@ -2,7 +2,7 @@ import React from "react";
 
 import { SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import Routes from "./src/screens/routes";
+import Routes from "./src/screens/Stack/routes";
 import Home from "./src/screens/home";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();

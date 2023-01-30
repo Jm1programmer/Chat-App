@@ -7,4 +7,5 @@ export const COLORS  =  {
     },
     blue: '#2D5AD1',
     gray: '#808080',
+    lowOpacityWhite: 'rgba(255,255,255,0.4)'
   }

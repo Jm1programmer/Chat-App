@@ -3,6 +3,7 @@ import { COLORS } from "../../colors";
 import Icon from 'react-native-vector-icons/Ionicons'
 import AIcon from 'react-native-vector-icons/AntDesign'
 import EIcon from 'react-native-vector-icons/Entypo'
+import auth from '@react-native-firebase/auth';
 export default function DownMenu() {
     return <>
         <View style={styles.DownMenu}>
@@ -16,7 +17,10 @@ export default function DownMenu() {
         </TouchableOpacity>
         
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity onPress={() => {
+            auth()
+            .signOut()
+        }} style={styles.button}>
         <EIcon name="cog" size={30} color={'#fff'} />
         </TouchableOpacity>
         
