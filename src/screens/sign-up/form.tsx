@@ -55,7 +55,7 @@ function handleSignIn(data: Data) {
        email: user.email,
        name: data.Username,
       })
-        console.log('user', '=>', user);
+       
         
     
       }).catch(error => {

@@ -33,7 +33,7 @@ export default  function Routes() {
     
    const unsubscribe =  auth().onAuthStateChanged((_user) => {
     setUser(_user)
-    console.log(_user)
+  
     })
     return unsubscribe;
   }, [])
@@ -60,8 +60,9 @@ return (
          
         ) : (
           <>
-          <Screen name="Home" component={Home}  />
           <Screen name="Chat" component={Chat}  />
+          <Screen name="Home" component={Home}  />
+          
       
    
           </>
