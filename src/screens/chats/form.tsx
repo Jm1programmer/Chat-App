@@ -27,11 +27,16 @@ const schema = yup.object({
 
 export default function Form({flatlistRef}: MessagesProps) {
     
+  
+
     
 
     const { control, handleSubmit, resetField,  formState: {errors}} = useForm<Data>({
-        resolver: yupResolver(schema)
+        resolver: yupResolver(schema),
+        
+        
 })
+
 
 const [user_uid, setUser_uid] = useState<string>()
 const [user_name, setUser_name] = useState<string>()

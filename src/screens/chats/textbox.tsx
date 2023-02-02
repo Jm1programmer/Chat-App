@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
-import { Text, View, StyleSheet, TouchableOpacity} from "react-native";
+import { useState, useEffect, JSXElementConstructor } from "react";
+import { Text, View, StyleSheet, TouchableOpacity, Alert} from "react-native";
 import { COLORS } from "../../colors";
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore';
+import Icon from 'react-native-vector-icons/Foundation'
 import { Colors } from "react-native/Libraries/NewAppScreen";
+
 
 type MessagesProps = {
     user_id: string;
@@ -16,6 +18,8 @@ type MessagesProps = {
 export default function TextBox({userName, user_id, text, date, id}: MessagesProps) {
     
     const [user_uid, setUser_uid] = useState<String>()
+    const [deleteIcon, setdeleteIcon] = useState<boolean>(true)
+  
   
     useEffect(() => {
         const userUID = auth().currentUser?.uid;
@@ -23,20 +27,76 @@ export default function TextBox({userName, user_id, text, date, id}: MessagesPro
         
     }, [])
 
+ 
+
     return <>
-        <TouchableOpacity onPress={() => {
-            firestore()
-            .collection('chats')
-            .doc(`${id}`)
-            .delete()
-            .then(() => {
-              
-            });
+    <View style={[styles.TextBox, { justifyContent:  user_id === user_uid ? 'flex-end' : 'flex-start'}]} >
+   
+        <View style={styles.avatar}></View>
+     
+        <TouchableOpacity onLongPress={() => {
+           deleteMessage()
+            function deleteMessage() {
+                if (user_id === user_uid) {
+                    Alert.alert(
+                        'Do you want to delete the message?',
+                        '',
+                        [
+                          {
+                            text: 'No',
+                           
+                           
+                          },
+    
+                          {
+                            text: 'Yes',
+                            onPress: () => {
+                                firestore()
+                                .collection('chats')
+                                .doc(`${id}`)
+                                .delete()
+                                .then(() => {
+                                    Alert.alert('Message deleted')
+                                });
+    
+    
+                            },
+                          
+                          },
+                        ],
+                        {
+                          cancelable: true,
+                          onDismiss: () =>
+                            Alert.alert(
+                              'This alert was dismissed by tapping outside of the alert dialog.',
+                            ),
+                        },
+                      );
+                }
+            }
+
+               
+               
+                
+
+           
         }} style={user_id === user_uid ? styles.SendTextBox : styles.ReceivedTextBox}>
             <Text style={[styles.userName, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{userName}</Text>
             <Text style={[styles.Text, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{text}</Text>
             <Text style={[styles.date, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{`${date}`}</Text>
+            
+                    
+                
         </TouchableOpacity>
+
+
+       
+        
+
+        </View>
+
+        
+        
     </>
 }
 
@@ -44,6 +104,11 @@ export default function TextBox({userName, user_id, text, date, id}: MessagesPro
 
 
 const styles = StyleSheet.create({
+    TextBox: {
+        flexDirection: 'row',
+        paddingHorizontal: 10,
+        alignItems: 'flex-start'
+    },
     ReceivedTextBox: {
         marginHorizontal: 10,
         marginVertical: 10,
@@ -90,5 +155,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Regular',
         fontSize: 12,
         color: COLORS.background.black,
+    },
+    avatar: {
+        width: 50,
+        height: 50,
+        borderRadius: 100,
+        backgroundColor: COLORS.blue,
+        marginTop: 12,
     }
 })

@@ -1,6 +1,6 @@
 import { Text, StyleSheet, Dimensions, KeyboardAvoidingView, View  } from "react-native";
 import { COLORS } from "../../colors";
-import Form from "./form";
+import Header from "./header";
 import MessagesFlatList from "./chatFlatlist";
 
 
@@ -10,7 +10,7 @@ export default function Chat(){
         
         behavior="padding"
          >
-            
+            <Header />
             <View style={styles.chat} >
                 <MessagesFlatList />
             </View>
