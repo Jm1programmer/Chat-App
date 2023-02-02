@@ -19,11 +19,17 @@ const schema = yup.object({
     TextBox: string ; 
   }
 
+  type MessagesProps = {
+    flatlistRef: any
+  };
+
  
 
-export default function Form() {
+export default function Form({flatlistRef}: MessagesProps) {
+    
+    
 
-    const { control, handleSubmit,  formState: {errors}} = useForm<Data>({
+    const { control, handleSubmit, resetField,  formState: {errors}} = useForm<Data>({
         resolver: yupResolver(schema)
 })
 
@@ -31,7 +37,7 @@ const [user_uid, setUser_uid] = useState<string>()
 const [user_name, setUser_name] = useState<string>()
 
 
-    console.log(user_uid)
+   
     useEffect(() => {
         const userUID = auth().currentUser?.uid;
         setUser_uid(userUID)
@@ -61,24 +67,49 @@ const [user_name, setUser_name] = useState<string>()
     }
     //#endregion
 
-   console.log(user_uid, user_name)
+   
 
 function handleSignIn(data: Data) {
+
+    //generates random id;
+let guid = () => {
+    let s4 = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
+     
+    const id = guid();
    const Date_ = new Date
     firestore()
       .collection('chats')
-      .doc(`${Math.random() * 100000}`)
+      .doc(id)
       .set({
        text: data.TextBox,
        user_id: user_uid,
        date: `${Date_}`,
        userName: user_name,
-       createdAt: firestore.FieldValue.serverTimestamp()
-
+       createdAt: firestore.FieldValue.serverTimestamp(),
+       id: id,
 
 
       })
-}
+      .then(( )=> {
+        resetField('TextBox')
+
+        const onPressGoToBottom = () => {
+            flatlistRef.current?.scrollToEnd();
+          };
+          
+          onPressGoToBottom()
+        
+      });
+}   
+
         return <>
         <View style={styles.form}>
             <Controller control={control} name="TextBox"
@@ -100,7 +131,19 @@ function handleSignIn(data: Data) {
                      
                         
                     />
-                    <TouchableOpacity style={styles.sendButton} onPress={handleSubmit(handleSignIn) } >
+
+                    
+
+                    <TouchableOpacity style={styles.sendButton} onPress={(e) => {
+                        const submit = () => {
+                            {;handleSubmit(handleSignIn)(e);}
+                        }
+
+                     
+                        
+                        submit()
+                        
+                    } } >
 
                     <Icon name={'send'} size={25} color={COLORS.TextBoxGray} />
 
@@ -121,7 +164,8 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     form: {
         alignItems: 'center',
-        paddingVertical: 50,
+        paddingVertical: 20,
+        marginBottom: 15,
   
     },
     Input: {

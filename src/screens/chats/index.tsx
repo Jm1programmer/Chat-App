@@ -14,7 +14,7 @@ export default function Chat(){
             <View style={styles.chat} >
                 <MessagesFlatList />
             </View>
-            <Form />
+            
          </KeyboardAvoidingView>
         
     </>
