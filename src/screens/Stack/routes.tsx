@@ -7,7 +7,7 @@ import {NavigationContainer,} from '@react-navigation/native';
 import Home from "../home";
 import Chat from "../chats";
 import Onbording from "../onboarding";
-
+import NewChat from "../newChat";
 
 import auth, {FirebaseAuthTypes, firebase} from '@react-native-firebase/auth'
 
@@ -60,8 +60,10 @@ return (
          
         ) : (
           <>
+            <Screen name="Home" component={Home}  />
           <Screen name="Chat" component={Chat}  />
-          <Screen name="Home" component={Home}  />
+          <Screen name="NewChat" component={NewChat}  />
+        
           
       
    

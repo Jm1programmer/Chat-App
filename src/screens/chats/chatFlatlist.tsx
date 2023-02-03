@@ -4,19 +4,27 @@ import React, {useEffect, useState, useRef } from "react";
 import { FlatList, Text, StyleSheet, Dimensions} from "react-native";
 import TextBox from "./textbox";
 import Form from "./form";
-
-
+import { useRoute } from "@react-navigation/native";
+import { propsStack } from "../Stack/models";
 import firestore from '@react-native-firebase/firestore';
 
+type MessagesProps = {
+  nameUrl: string,
 
+};
 
-export default function MessagesFlatList() {
+export default function MessagesFlatList({nameUrl,} : MessagesProps) {
+
+  const Global = 'Global-chat'
+
+  
+ 
   
     const [messages, setMessages] = useState<any>([]);
         const getMessages = async() => {
            await firestore()
            
-            .collection('chats')
+            .collection(`chats/${nameUrl}/chat`)
             .orderBy('createdAt')
             .onSnapshot(querySnapshot => {
                 let doc: Array<Object>= [];
@@ -49,7 +57,7 @@ export default function MessagesFlatList() {
 return <>
         <FlatList 
         data={messages}
-        renderItem={({ item }) =>  <TextBox   user_id={""} userName={""} text={""} date={""} id={""}  {...(item as object)}  />  }
+        renderItem={({ item }) =>  <TextBox nameUrl={nameUrl} idUrl={''} user_id={""} userName={""} text={""} date={""} id={""}  {...(item as object)}  />  }
         ref={flatlistRef}
         keyExtractor={({date, user_id, id}) => user_id + date + id}
         horizontal={false}
@@ -58,7 +66,7 @@ return <>
         
          />
 
-         <Form flatlistRef={flatlistRef} />
+         <Form  nameUrl={nameUrl}  idUrl={''} flatlistRef={flatlistRef} />
     </>
 }
 

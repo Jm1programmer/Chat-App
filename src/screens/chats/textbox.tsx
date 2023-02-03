@@ -13,10 +13,12 @@ type MessagesProps = {
     text: string;
     date: string;
     id: string;
+    nameUrl: string;
+    idUrl: string;
   };
 
-export default function TextBox({userName, user_id, text, date, id}: MessagesProps) {
-    
+export default function TextBox({userName, user_id, text, date, id, nameUrl,}: MessagesProps) {
+    const docUrl = `chats/${nameUrl}/chat`
     const [user_uid, setUser_uid] = useState<String>()
     const [deleteIcon, setdeleteIcon] = useState<boolean>(true)
   
@@ -32,7 +34,7 @@ export default function TextBox({userName, user_id, text, date, id}: MessagesPro
     return <>
     <View style={[styles.TextBox, { justifyContent:  user_id === user_uid ? 'flex-end' : 'flex-start'}]} >
    
-        <View style={styles.avatar}></View>
+        <TouchableOpacity style={styles.avatar}></TouchableOpacity>
      
         <TouchableOpacity onLongPress={() => {
            deleteMessage()
@@ -52,7 +54,7 @@ export default function TextBox({userName, user_id, text, date, id}: MessagesPro
                             text: 'Yes',
                             onPress: () => {
                                 firestore()
-                                .collection('chats')
+                                .collection(docUrl)
                                 .doc(`${id}`)
                                 .delete()
                                 .then(() => {

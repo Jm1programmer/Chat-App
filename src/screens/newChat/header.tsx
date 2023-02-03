@@ -5,32 +5,28 @@ import EIcon from 'react-native-vector-icons/Entypo'
 import { useNavigation } from "@react-navigation/native";
 import { propsStack } from "../Stack/models";
 
-type MessagesProps = {
-    nameUrl: string
-  };
-export default function Header({nameUrl} : MessagesProps) {
+
+export default function Header() {
     const navigation = useNavigation<propsStack>()
     return <>
 
     <View style={styles.Header}>
         <TouchableOpacity onPress={() => {
-            navigation.navigate('Home')
+            navigation.goBack()
         }}>
             <AIcon name={'arrowleft'} size={25} color={COLORS.background.black} />
         </TouchableOpacity>
     
-    <TouchableOpacity style={styles.ContactBox}>
-        <View style={styles.profilePicture}></View>
+    <View style={styles.ContactBox}>
+      
         <View style={styles.info}>
-            <Text style={styles.name}>{nameUrl}</Text>
+            <Text style={styles.Title}>New chat</Text>
+            <Text style={styles.subTitle}>Add name, and description</Text>
            
         </View>
-        </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity>
-        <EIcon name={'dots-three-vertical'} size={20} color={COLORS.background.black} />
-
-        </TouchableOpacity>
+       
 
     
 
@@ -51,25 +47,25 @@ const styles = StyleSheet.create({
            
        flexDirection: 'row',
        alignItems: 'center',
-       justifyContent: 'space-between',
+       
        padding: 10,
         },
     ContactBox: {
     
         flexDirection: 'row',
-        alignItems: 'center'
+  
     },
-    profilePicture: {
-        width: 50,
-        height: 50,
-        borderRadius: 60,
-        backgroundColor: COLORS.blue
-    },
+    
     info: {
-        paddingLeft: 10,
+        paddingLeft: 30,
+      
     },
-    name: {
-        fontSize: 17,
+    Title: {
+        fontSize: 22,
+        fontFamily: 'Montserrat-SemiBold'
+    },
+    subTitle: {
+        fontSize: 15,
         fontFamily: 'Montserrat-Regular'
     },
 

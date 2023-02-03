@@ -1,7 +1,7 @@
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { COLORS } from "../../colors";
-import ChatsList from "./chats";
-import DownMenu from "./downmenu";
+import ChatsList from "./chatsFlatlist";
+import Add from "./Add";
 
 export default function Home(){
     return <>
@@ -13,8 +13,9 @@ export default function Home(){
         </View>
       
        <ChatsList />
+       <Add />
     </View>
-    <DownMenu />
+  
     </>
 }
 

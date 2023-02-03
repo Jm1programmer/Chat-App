@@ -1,18 +1,19 @@
 import { Text, StyleSheet, Dimensions, KeyboardAvoidingView, View  } from "react-native";
 
 import Header from "./header";
-import MessagesFlatList from "./chatFlatlist";
+import Form from "./form";
+
+
 import { useRoute } from "@react-navigation/native";
 
 import type { RouteProp } from '@react-navigation/native';
 type ParamList = {
     Detail: {
         name: string,
-        idUrl: string,
     };
   };
 
-export default function Chat(){
+export default function NewChat(){
     const route = useRoute<RouteProp<ParamList, 'Detail'>>()
    
   
@@ -22,9 +23,10 @@ export default function Chat(){
         
         behavior="padding"
          >
-            <Header nameUrl={ route.params.name} />
+            <Header />
             <View style={styles.chat} >
-                <MessagesFlatList nameUrl={ route.params.name}  />
+             <Form />
+        
             </View>
             
          </KeyboardAvoidingView>

@@ -20,14 +20,16 @@ const schema = yup.object({
   }
 
   type MessagesProps = {
-    flatlistRef: any
+    flatlistRef: any,
+    nameUrl: string,
+    idUrl: string
   };
 
  
 
-export default function Form({flatlistRef}: MessagesProps) {
+export default function Form({flatlistRef, nameUrl, idUrl}: MessagesProps) {
     
-  
+  const docUrl = `chats/${nameUrl}/chat`
 
     
 
@@ -91,7 +93,7 @@ let guid = () => {
     const id = guid();
    const Date_ = new Date
     firestore()
-      .collection('chats')
+      .collection(docUrl)
       .doc(id)
       .set({
        text: data.TextBox,
