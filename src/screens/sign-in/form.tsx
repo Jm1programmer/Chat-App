@@ -106,7 +106,8 @@ function handleSignIn(data: Data) {
                 
 
                 <TouchableOpacity>
-                     <Text style={styles.accountInfoText} onPress={() => {navigation.navigate('SignUp')}}>Create a New Account</Text>
+                     <Text style={styles.accountInfoText} onPress={() => {navigation.navigate('SignUp' as never, {avatarImg: 'https://i.imgur.com/aK5j36w.png'} as never)}}>Create a New Account</Text>
+                     
                 </TouchableOpacity>
                 
             </View>

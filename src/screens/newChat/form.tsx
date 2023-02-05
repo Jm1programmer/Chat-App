@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import { Text, Dimensions, View, StyleSheet, TextInput, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { COLORS } from "../../colors";
 
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { Controller, useForm  } from "react-hook-form";
@@ -59,7 +60,7 @@ let guid = () => {
     //return id of format 'aaaaaaaa'-'aaaa'-'aaaa'-'aaaa'-'aaaaaaaaaaaa'
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
-console.log(data)
+
 
      
     const id = guid();
@@ -126,7 +127,9 @@ console.log(data)
                    
 < View style={{   borderColor: COLORS.blue,
                  borderWidth: 1,
-       borderRadius: 5,}}/>
+       borderRadius: 5,
+  
+       }}/>
 
                 </View>
                     
@@ -217,7 +220,7 @@ const styles = StyleSheet.create({
         width: '85%',
        
     
-        height: height / 22,
+        minHeight: height / 22,
     
        
         marginVertical: 15,

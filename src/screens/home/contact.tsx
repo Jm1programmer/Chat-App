@@ -45,11 +45,13 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 17,
-        fontFamily: 'Montserrat-Regular'
+        fontFamily: 'Montserrat-Regular',
+        color: COLORS.background.black
     },
 
     desc: {
         fontSize: 13,
-        fontFamily: 'Montserrat-Regular'
+        fontFamily: 'Montserrat-Regular',
+        color: COLORS.background.black
     },
 })

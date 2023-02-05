@@ -1,4 +1,4 @@
-import { Text, StyleSheet, Dimensions, KeyboardAvoidingView, View  } from "react-native";
+import { Text, StyleSheet, Dimensions, KeyboardAvoidingView, View, Platform  } from "react-native";
 
 import Header from "./header";
 import MessagesFlatList from "./chatFlatlist";
@@ -20,7 +20,7 @@ export default function Chat(){
     return <>
     <KeyboardAvoidingView style={styles.chat}
         
-        behavior="padding"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
          >
             <Header nameUrl={ route.params.name} />
             <View style={styles.chat} >

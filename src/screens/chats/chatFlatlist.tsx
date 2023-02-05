@@ -36,6 +36,8 @@ export default function MessagesFlatList({nameUrl,} : MessagesProps) {
                        userName: documentSnapshot.get('userName'),
                        text: documentSnapshot.get('text'),
                        date: documentSnapshot.get('date'),
+                       createdAt: documentSnapshot.get('createdAt'),
+                       avatar: documentSnapshot.get('avatar'),
                       
                       
                    }
@@ -57,7 +59,7 @@ export default function MessagesFlatList({nameUrl,} : MessagesProps) {
 return <>
         <FlatList 
         data={messages}
-        renderItem={({ item }) =>  <TextBox nameUrl={nameUrl} idUrl={''} user_id={""} userName={""} text={""} date={""} id={""}  {...(item as object)}  />  }
+        renderItem={({ item }) =>  <TextBox nameUrl={nameUrl} avatar={''} idUrl={''} user_id={""} userName={""} text={""} date={""} id={""} createdAt={{}}  {...(item as object)}  />  }
         ref={flatlistRef}
         keyExtractor={({date, user_id, id}) => user_id + date + id}
         horizontal={false}

@@ -5,13 +5,22 @@ import Icon from 'react-native-vector-icons/AntDesign'
 
 import { useNavigation, } from "@react-navigation/native";
 import { propsStack } from "../Stack/models";
+import { useRoute } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
+type ParamList = {
+    Detail: {
+        avatarImg: string,
+    };
+  };
 
 export default function SignUp() {
+    const route = useRoute<RouteProp<ParamList, 'Detail'>>()
+
     const navigation = useNavigation<propsStack>()
     return <>
         <KeyboardAvoidingView 
          style={styles.SignIn}
-        behavior="padding"
+         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
          >
            
             
@@ -26,7 +35,7 @@ export default function SignUp() {
             <Text style={styles.Title}>SignOut</Text>
              <Text style={styles.subTitle}>Enter your username, email and password to register below</Text>
              </View>
-             <Form />
+             <Form avatarImg={ route.params.avatarImg}/>
              </View>
         </KeyboardAvoidingView>
     </>
@@ -68,7 +77,7 @@ const styles = StyleSheet.create({
     goback: {
      
         
-        marginBottom: '32%',
+        
        
     }
 })

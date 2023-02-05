@@ -42,17 +42,18 @@ export default function Form({flatlistRef, nameUrl, idUrl}: MessagesProps) {
 
 const [user_uid, setUser_uid] = useState<string>()
 const [user_name, setUser_name] = useState<string>()
+const [user_avatar, setUser_avatar] = useState<string>()
 
 
    
     useEffect(() => {
         const userUID = auth().currentUser?.uid;
         setUser_uid(userUID)
-        getUsername()
+        getUserData()
         
     }, [])
  //#region GetUsername
-    function getUsername() {
+    function getUserData() {
 
         const userUID = auth().currentUser?.uid;
         firestore()
@@ -66,6 +67,7 @@ const [user_name, setUser_name] = useState<string>()
      const userData  = documentSnapshot.data();
      if (userData != undefined) {
         setUser_name(userData.name )
+        setUser_avatar(userData.avatar)
      }
      
     }
@@ -98,6 +100,7 @@ let guid = () => {
       .set({
        text: data.TextBox,
        user_id: user_uid,
+       avatar: user_avatar,
        date: `${Date_}`,
        userName: user_name,
        createdAt: firestore.FieldValue.serverTimestamp(),

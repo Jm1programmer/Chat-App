@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { TextInput, View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert} from "react-native";
+import React, {useState, useEffect} from "react";
+import { TextInput, View, Text, StyleSheet, Dimensions, TouchableOpacity, Alert, Image} from "react-native";
 import { COLORS } from "../../colors";
 import { propsStack } from "../Stack/models";
 import { useNavigation, } from "@react-navigation/native";
@@ -10,6 +10,10 @@ type Data = {
     Username: string;
   }
 
+
+  type MessagesProps = {
+    avatarImg: string
+  };
 
   
 import auth from '@react-native-firebase/auth'
@@ -29,9 +33,17 @@ const schema = yup.object({
     Username: yup.string().min(2).required(),
  })
 
-export default function Form() {
+export default function Form({avatarImg} : MessagesProps) {
     const [HideText, sethideText] = useState<boolean>(false)
     const navigation = useNavigation<propsStack>()
+
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+   
+    useEffect( () => {
+
+      setImageUrl(avatarImg)
+       
+      }, [avatarImg]);
    
     const { control, handleSubmit,  formState: {errors}} = useForm<Data>({
         resolver: yupResolver(schema)
@@ -54,6 +66,7 @@ function handleSignIn(data: Data) {
       .set({
        email: user.email,
        name: data.Username,
+       avatar: imageUrl,
       })
        
         
@@ -71,6 +84,16 @@ function handleSignIn(data: Data) {
       })
 }
     return <>
+
+    <TouchableOpacity onPress={() => {
+        navigation.navigate('Avatar')
+    }} style={styles.AvatarView}>
+        <Image style={styles.Avatar} source={{uri: imageUrl}}   />
+        <View style={styles.edit}>
+             <Icon name={"edit"} size={25} color={COLORS.background.black} />
+        </View>
+       
+    </TouchableOpacity>
 
 <Controller control={control} name="Username"
             render={({ field: { onChange, onBlur, value}}) => (
@@ -159,7 +182,27 @@ const height = Dimensions.get('window').height;
 
 
 const styles = StyleSheet.create({
-   
+    AvatarView: {
+        alignSelf: 'center',
+        width: 90,
+        height: 90,
+    },
+   Avatar: {
+    width: 90,
+    height: 90,
+   },
+
+   edit: {
+    width: 30,
+    height: 30,
+    backgroundColor: COLORS.lowOpacityWhite,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 0,
+    right: 0
+   },
 
 
     Input: {

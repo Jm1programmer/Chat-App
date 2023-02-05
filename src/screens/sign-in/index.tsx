@@ -7,7 +7,7 @@ export default function SignIN() {
     return <>
         <KeyboardAvoidingView 
          style={styles.SignIn}
-        behavior="padding"
+         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
          >
             <View style={styles.SignInBox}>
             <View style={styles.info}>
