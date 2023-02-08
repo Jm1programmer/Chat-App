@@ -9,14 +9,16 @@ import { useRoute } from "@react-navigation/native";
 import type { RouteProp } from '@react-navigation/native';
 type ParamList = {
     Detail: {
-        name: string,
+        urls: string,
     };
   };
+
 
 export default function NewChat(){
     const route = useRoute<RouteProp<ParamList, 'Detail'>>()
    
-  
+    
+
     
     return <>
     <KeyboardAvoidingView style={styles.chat}
@@ -25,7 +27,7 @@ export default function NewChat(){
          >
             <Header />
             <View style={styles.chat} >
-             <Form />
+             <Form urls={route.params.urls}  />  
         
             </View>
             

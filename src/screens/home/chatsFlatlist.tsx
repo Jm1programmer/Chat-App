@@ -26,6 +26,7 @@ export default function ChatsFlatList() {
                        name: documentSnapshot.get('name'),
                        desc: documentSnapshot.get('desc'),
                         id: documentSnapshot.get('id'),
+                        image: documentSnapshot.get('image')
                       
                       
                    }
@@ -47,7 +48,7 @@ export default function ChatsFlatList() {
 return <>
         <FlatList 
         data={chats}
-        renderItem={({ item }) =>  <Contact  name={""} desc={""} id={''} {...(item as object)}  />  }
+        renderItem={({ item }) =>  <Contact image={""} name={""} desc={""} id={''} {...(item as object)}  />  }
         ref={flatlistRef}
         keyExtractor={({id}) => id}
         horizontal={false}

@@ -9,4 +9,6 @@ export const COLORS  =  {
     gray: '#808080',
     lowOpacityWhite: 'rgba(255,255,255,0.4)',
     TextBoxGray: '#E1E1E1',
+
+
   }

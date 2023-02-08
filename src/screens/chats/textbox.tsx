@@ -27,14 +27,7 @@ export default function TextBox({userName, user_id, text, date, id, nameUrl, ava
     const [MessageDate, setMessageDate] = useState<Date>(new Date(date))
     const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
 
-    const interval = async () => { await setInterval(function(){
-        setMessageDate(new Date(date))
-     },60000);
-    }
-
-    useEffect(() => {
-        interval()
-    }, [interval])
+   
   
   
   
@@ -53,7 +46,7 @@ export default function TextBox({userName, user_id, text, date, id, nameUrl, ava
     <View style={[styles.TextBox, { justifyContent:  user_id === user_uid ? 'flex-end' : 'flex-start'}]} >
    
         <TouchableOpacity style={styles.avatar}>
-        <Image style={styles.avatarImg} source={{uri: imageUrl}} resizeMode="cover"  />
+        { imageUrl !== '' ?  <Image style={styles.avatarImg} source={{uri: imageUrl}} resizeMode="cover"  /> : null}
         </TouchableOpacity>
      
         <TouchableOpacity onLongPress={() => {

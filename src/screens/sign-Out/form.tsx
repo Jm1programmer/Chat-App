@@ -88,7 +88,7 @@ function handleSignIn(data: Data) {
     <TouchableOpacity onPress={() => {
         navigation.navigate('Avatar')
     }} style={styles.AvatarView}>
-        <Image style={styles.Avatar} source={{uri: imageUrl}}   />
+        { imageUrl !== '' ?  <Image style={styles.Avatar} source={{uri: imageUrl}} resizeMode="cover"  /> : null}
         <View style={styles.edit}>
              <Icon name={"edit"} size={25} color={COLORS.background.black} />
         </View>

@@ -10,10 +10,11 @@ import firestore from '@react-native-firebase/firestore';
 
 type MessagesProps = {
   nameUrl: string,
+  
 
 };
 
-export default function MessagesFlatList({nameUrl,} : MessagesProps) {
+export default function MessagesFlatList({nameUrl, } : MessagesProps) {
 
   const Global = 'Global-chat'
 
@@ -50,21 +51,24 @@ export default function MessagesFlatList({nameUrl,} : MessagesProps) {
     }
    
     useEffect(() => {
-    
+     
        getMessages()
     }, []);
     const flatlistRef = useRef<FlatList>(null);
+  
     
   
 return <>
         <FlatList 
-        data={messages}
-        renderItem={({ item }) =>  <TextBox nameUrl={nameUrl} avatar={''} idUrl={''} user_id={""} userName={""} text={""} date={""} id={""} createdAt={{}}  {...(item as object)}  />  }
+        data={[...messages]}
+        renderItem={({ item }) =>  <TextBox nameUrl={nameUrl}   avatar={''} idUrl={''} user_id={""} userName={""} text={""} date={""} id={""} createdAt={{}}  {...(item as object)}  />  }
         ref={flatlistRef}
         keyExtractor={({date, user_id, id}) => user_id + date + id}
         horizontal={false}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
+       
+     
         
          />
 

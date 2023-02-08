@@ -9,6 +9,7 @@ import Chat from "../chats";
 import Onbording from "../onboarding";
 import NewChat from "../newChat";
 import Avatar from "../Avatar";
+import SearchImages from "../searchImages";
 
 import auth, {FirebaseAuthTypes, firebase} from '@react-native-firebase/auth'
 
@@ -49,6 +50,7 @@ return (
         {user == null ? (
           // User isn`t signed in
           <>
+           
           <Screen name="SignIn" component={SignIN}  />
         <Screen name="SignUp" component={SignUP}  />  
         <Screen name="Avatar" component={Avatar} />
@@ -61,6 +63,7 @@ return (
             <Screen name="Home" component={Home}  />
           <Screen name="Chat" component={Chat}  />
           <Screen name="NewChat" component={NewChat}  />
+          <Screen name="SearchImages" component={SearchImages}  />
         
           
       

@@ -1,37 +1,44 @@
 import { useState, useEffect, } from "react";
-import { Image, StyleSheet, Touchable, TouchableOpacity, Vibration, View } from "react-native";
+import { ActivityIndicator, Image, StyleSheet, Touchable, TouchableOpacity, Vibration, View } from "react-native";
 import { COLORS } from "../../colors";
 import { useNavigation } from "@react-navigation/native";
 import { propsStack } from "../Stack/models";
 type MessagesProps = {
     image: string,
+    category: string,
   };
 
-export default function AvatarCard({ image}: MessagesProps) {
+export default function AvatarCard({ image, category}: MessagesProps) {
     const navigation = useNavigation<propsStack>()
     const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+    const [loading, setLoading] = useState<boolean>(true)
     
     useEffect( () => {
-
+        
       setImageUrl(image)
+      setLoading(false)
        
       }, []);
-    return <>
-    <View style={styles.Avatar}>
-    <TouchableOpacity style={styles.AvatarView} onPress={() => {
-        navigation.navigate('SignUp' as never, {avatarImg: image} as never)}
-    }> 
-        <Image style={styles.AvatarImg} source={{uri: imageUrl}} resizeMode="cover"  />
-       
-    </TouchableOpacity>
-    </View>
-     
-    </>
+
+      if (loading) {return <ActivityIndicator /> } else {
+        return <>
+        <View style={styles.Avatar}>
+        <TouchableOpacity style={[styles.AvatarView, {}]} onPress={() => {
+            navigation.navigate('SignUp' as never, {avatarImg: image} as never)}
+        }> 
+            { imageUrl !== '' ?  <Image style={styles.AvatarImg} source={{uri: imageUrl}} resizeMode="cover"  /> : null}
+           
+        </TouchableOpacity>
+        </View>
+         
+        </>
+      }
+   
 }
 
 const styles = StyleSheet.create({
     Avatar: {
-        paddingHorizontal: 10,
+        paddingHorizontal: 4,
         paddingVertical: 10,
        
     },

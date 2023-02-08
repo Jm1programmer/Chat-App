@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { COLORS } from "../../colors";
 import AIcon from 'react-native-vector-icons/AntDesign'
 import EIcon from 'react-native-vector-icons/Entypo'
@@ -6,9 +6,11 @@ import { useNavigation } from "@react-navigation/native";
 import { propsStack } from "../Stack/models";
 
 type MessagesProps = {
-    nameUrl: string
+    nameUrl: string,
+    imageUrl:string,
+    
   };
-export default function Header({nameUrl} : MessagesProps) {
+export default function Header({nameUrl, imageUrl} : MessagesProps) {
     const navigation = useNavigation<propsStack>()
     return <>
 
@@ -20,7 +22,9 @@ export default function Header({nameUrl} : MessagesProps) {
         </TouchableOpacity>
     
     <TouchableOpacity style={styles.ContactBox}>
-        <View style={styles.profilePicture}></View>
+        <View style={styles.profilePictureView}>
+            <Image style={styles.profilePicture} source={{uri: imageUrl}} resizeMode="cover" />
+        </View>
         <View style={styles.info}>
             <Text style={styles.name}>{nameUrl}</Text>
            
@@ -59,11 +63,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
+
+    profilePictureView: {
+        width: 50,
+        height: 50,
+        borderRadius: 60,
+        backgroundColor: COLORS.blue,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     profilePicture: {
         width: 50,
         height: 50,
         borderRadius: 60,
-        backgroundColor: COLORS.blue
+       
     },
     info: {
         paddingLeft: 10,

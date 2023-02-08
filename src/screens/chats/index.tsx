@@ -9,20 +9,21 @@ type ParamList = {
     Detail: {
         name: string,
         idUrl: string,
+        Image: string,
     };
   };
 
 export default function Chat(){
     const route = useRoute<RouteProp<ParamList, 'Detail'>>()
    
-  
+   
     
     return <>
     <KeyboardAvoidingView style={styles.chat}
         
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
          >
-            <Header nameUrl={ route.params.name} />
+            <Header nameUrl={ route.params.name} imageUrl={route.params.Image}/>
             <View style={styles.chat} >
                 <MessagesFlatList nameUrl={ route.params.name}  />
             </View>

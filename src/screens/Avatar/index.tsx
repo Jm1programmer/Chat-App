@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
 import { COLORS } from "../../colors";
 import Header from "./header";
 import AvatarFlatList from "./AvatarFlatlist";
@@ -7,7 +7,17 @@ export default function Avatar(){
     return <>
     <View style={styles.screen}>
         <Header />
-        <AvatarFlatList />
+        <ScrollView
+         showsHorizontalScrollIndicator={false}
+         showsVerticalScrollIndicator={false}>
+        <AvatarFlatList category={'Popular'} />
+        <AvatarFlatList category={'Emoji'} />
+        <AvatarFlatList category={'New'} />
+        
+        <AvatarFlatList  category={'Classic'}/>
+        <AvatarFlatList  category={'Human'}/>
+        </ScrollView>
+       
   
     </View>
   
@@ -17,7 +27,7 @@ export default function Avatar(){
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: COLORS.blue,
+        backgroundColor: COLORS.background.white,
         padding: 10,
     },
     title: {

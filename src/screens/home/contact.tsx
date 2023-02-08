@@ -1,4 +1,5 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import React, {useState, useEffect} from "react";
+import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { COLORS } from "../../colors";
 import { useNavigation } from "@react-navigation/native";
 import { propsStack } from "../Stack/models";
@@ -8,16 +9,29 @@ type MessagesProps = {
     name: string;
     desc: string;
     id: string;
+    image: string
   };
 
   
-export default function Contact({name, desc, id}: MessagesProps) {
+
+  
+export default function Contact({name, desc, id, image}: MessagesProps) {
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+
+    useEffect( () => {
+        
+        setImageUrl(image)
+       
+         
+        }, []);
     const navigation = useNavigation<propsStack>()
     return <>
         <TouchableOpacity style={styles.ContactBox} onPress={() => {
-           navigation.navigate('Chat' as never, {name: name, idUrl: id} as never,)
+           navigation.navigate('Chat' as never, {name: name, idUrl: id, Image: image} as never,)
         }}>
-        <View style={styles.profilePicture}></View>
+        <View style={styles.profilePictureView}>
+            <Image style={styles.profilePicture} source={{uri: imageUrl}} resizeMode="cover"/>
+        </View>
         <View style={styles.info}>
             <Text style={styles.name}>{name}</Text>
             <Text style={styles.desc}>{desc}</Text>
@@ -33,11 +47,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
+
+    profilePictureView: {
+        width: 50,
+        height: 50,
+        borderRadius: 60,
+        backgroundColor: COLORS.blue,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     profilePicture: {
         width: 50,
         height: 50,
         borderRadius: 60,
-        backgroundColor: COLORS.blue
+        
     },
     info: {
         paddingLeft: 10,

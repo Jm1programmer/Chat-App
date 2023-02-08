@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Text, Dimensions, View, StyleSheet, TextInput, KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import { Text, Dimensions, View, StyleSheet, TextInput, KeyboardAvoidingView, TouchableOpacity, Image } from "react-native";
 import { COLORS } from "../../colors";
 
 
@@ -23,10 +23,16 @@ const schema = yup.object({
     DescName: string;
   }
 
+  type MessageData = {
+    urls: string
+  }
+
  
  
 
-export default function Form() {
+export default function Form({urls} : MessageData) {
+
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
     
     const navigation = useNavigation<propsStack>()
 
@@ -38,15 +44,9 @@ export default function Form() {
         
 })
 
-
-
-
-
-   
-   
- 
-
-   
+    useEffect(() => {
+        setImageUrl(urls)
+    }, [urls])
 
 function handleSignIn(data: Data) {
 
@@ -74,6 +74,7 @@ let guid = () => {
         name: data.ChatName,
         createdAt: firestore.FieldValue.serverTimestamp(),
         id: id,
+        image: urls,
 
       })
       .then(( )=> {
@@ -84,7 +85,7 @@ let guid = () => {
         .set({
          can: 1
         })
-        navigation.navigate('Chat' as never, {name: data.ChatName,} as never,)
+        navigation.navigate('Chat' as never, {name: data.ChatName, Image: urls} as never,)
       });
 }   
 
@@ -93,8 +94,11 @@ let guid = () => {
 
             
 
-            <TouchableOpacity style={styles.ChatPicture}>
+            <TouchableOpacity style={styles.ChatPictureView} onPress={() => {
+                navigation.navigate('SearchImages')
+            }}>
             <Icon name={'camera'} size={25} color={COLORS.TextBoxGray} />
+           { imageUrl == undefined ? <View></View> : <Image source={{uri: imageUrl}} style={styles.ChatPicture} /> } 
             </TouchableOpacity>
 
             <Controller control={control} name="ChatName"
@@ -268,7 +272,7 @@ const styles = StyleSheet.create({
      
     },
 
-    ChatPicture: {
+    ChatPictureView: {
         width: 50,
         height: 50,
         borderRadius: 60,
@@ -288,5 +292,12 @@ const styles = StyleSheet.create({
         bottom: 50,
         right: 30,
         alignSelf: 'flex-end',
-    }
+    },
+
+    ChatPicture: {
+        width: 50,
+        height: 50,
+        borderRadius: 60,
+        position: 'absolute',
+    },
 })

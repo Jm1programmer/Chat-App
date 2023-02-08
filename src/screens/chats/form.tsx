@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Text, Dimensions, View, StyleSheet, TextInput, KeyboardAvoidingView, TouchableOpacity } from "react-native";
+import { Text, Dimensions, View, StyleSheet, TextInput, KeyboardAvoidingView, TouchableOpacity , } from "react-native";
 import { COLORS } from "../../colors";
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,7 +8,7 @@ import { Controller, useForm  } from "react-hook-form";
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import EIcon from 'react-native-vector-icons/Entypo'
 
 const schema = yup.object({
    
@@ -121,6 +121,7 @@ let guid = () => {
 }   
 
         return <>
+      
         <View style={styles.form}>
             <Controller control={control} name="TextBox"
                 render={({ field: { onChange, onBlur, value}}) => (
@@ -129,6 +130,14 @@ let guid = () => {
                     
                         
                     }]}>
+
+                <TouchableOpacity style={styles.emoji}  >
+
+                    <EIcon name={'emoji-happy'} size={25} color={COLORS.gray} />
+
+                    </TouchableOpacity>
+
+
                     <TextInput style={styles.InputText}
                         onChangeText={onChange}
                         onBlur={onBlur}
@@ -163,9 +172,11 @@ let guid = () => {
                 </View>
                 
                 )}/> 
+
+
         </View>
-
-
+      
+       
         </>
 }
 
@@ -174,8 +185,8 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     form: {
         alignItems: 'center',
-        paddingVertical: 20,
-        marginBottom: 15,
+      
+        marginBottom: 50,
   
     },
     Input: {
@@ -191,7 +202,7 @@ const styles = StyleSheet.create({
      
        backgroundColor: COLORS.TextBoxGray,
        borderRadius: 60,
-      
+      paddingHorizontal: 10,
         overflow: 'hidden'
         
       
@@ -204,7 +215,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: COLORS.gray,
        width: '80%',
-       paddingHorizontal: 25,
+       paddingHorizontal: 10,
 
     
      
@@ -217,5 +228,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 60,
+    },
+
+    emoji: {
+   
+       
     }
 })

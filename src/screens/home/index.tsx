@@ -46,7 +46,8 @@ export default function Home(){
                 auth()
                 .signOut()
             }} style={styles.profilePicture}>
-                <Image style={styles.AvatarImg} source={{uri: imageUrl}} resizeMode="cover"  />
+                 { imageUrl !== '' ?  <Image style={styles.AvatarImg} source={{uri: imageUrl}} resizeMode="cover"  /> : null}
+             
             </TouchableOpacity>
          
         </View>
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 60,
-        backgroundColor: COLORS.blue
+      
     },
 
     AvatarImg: {

@@ -6,10 +6,12 @@ import { propsStack } from "../Stack/models";
 
 export default function Add(){
     const navigation = useNavigation<propsStack>()
+    const urls = 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/640px-HD_transparent_picture.png'
     return <>
     
+    
             <TouchableOpacity style={styles.Add} onPress={() => {
-                navigation.navigate('NewChat')
+                navigation.navigate('NewChat'  as never, {urls: urls} as never)
             }}>
             <Icon name={'pluscircleo'} size={40} color={COLORS.background.white} />
             </TouchableOpacity>
