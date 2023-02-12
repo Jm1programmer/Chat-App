@@ -17,7 +17,7 @@ type MessagesProps = {
   
 export default function Contact({name, desc, id, image}: MessagesProps) {
     const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-
+   const lenght = 47
     useEffect( () => {
         
         setImageUrl(image)
@@ -34,7 +34,7 @@ export default function Contact({name, desc, id, image}: MessagesProps) {
         </View>
         <View style={styles.info}>
             <Text style={styles.name}>{name}</Text>
-            <Text style={styles.desc}>{desc}</Text>
+            <Text style={styles.desc}>{desc.length > lenght? desc.substring(0, lenght - 3) + "..." : desc} </Text>
         </View>
         </TouchableOpacity>
     </>
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     desc: {
         fontSize: 13,
         fontFamily: 'Montserrat-Regular',
-        color: COLORS.background.black
+        color: COLORS.background.black,
+       
     },
 })

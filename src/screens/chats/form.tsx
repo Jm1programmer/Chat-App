@@ -105,6 +105,7 @@ let guid = () => {
        userName: user_name,
        createdAt: firestore.FieldValue.serverTimestamp(),
        id: id,
+       type: 'text',
 
 
       })
@@ -112,7 +113,7 @@ let guid = () => {
         resetField('TextBox')
 
         const onPressGoToBottom = () => {
-            flatlistRef.current?.scrollToEnd();
+            flatlistRef.current?.scrollToOffset({ animated: true, offset: 0 })
           };
           
           onPressGoToBottom()
@@ -131,12 +132,7 @@ let guid = () => {
                         
                     }]}>
 
-                <TouchableOpacity style={styles.emoji}  >
-
-                    <EIcon name={'emoji-happy'} size={25} color={COLORS.gray} />
-
-                    </TouchableOpacity>
-
+                
 
                     <TextInput style={styles.InputText}
                         onChangeText={onChange}

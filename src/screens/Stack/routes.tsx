@@ -10,6 +10,9 @@ import Onbording from "../onboarding";
 import NewChat from "../newChat";
 import Avatar from "../Avatar";
 import SearchImages from "../searchImages";
+import JoinGroup from "../JoinGroup";
+import InviteGroups from "../InviteGroups";
+import ChatsInformation from "../chatsInfomation";
 
 import auth, {FirebaseAuthTypes, firebase} from '@react-native-firebase/auth'
 
@@ -64,8 +67,9 @@ return (
           <Screen name="Chat" component={Chat}  />
           <Screen name="NewChat" component={NewChat}  />
           <Screen name="SearchImages" component={SearchImages}  />
-        
-          
+          <Screen name="JoinGroup" component={JoinGroup}  />
+          <Screen name="InviteGroups" component={InviteGroups}  />
+          <Screen name="ChatsInformation" component={ChatsInformation}  />
       
    
           </>

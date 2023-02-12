@@ -16,26 +16,22 @@ export default function AvatarFlatList({category}: MessagesProps) {
   
     const [Avatar, setAvatar] = useState<any>(undefined);
         const getAvatars = async() => {
-           await firestore()
-           
+           firestore()
+
             .collection('avatar')
             .where("category", "array-contains", category)
             .onSnapshot(querySnapshot => {
-                let doc: Array<Object>= [];
-                 querySnapshot.docs.map(documentSnapshot => {
-                 
-                   const categories = {
-                 
-                       image: documentSnapshot.get('image'),
-                  
-                      
-                      
-                   }
-                   doc.push(categories);
-                 });
-              
-                 setAvatar(doc)
-               })
+              let doc: Array<Object> = [];
+              querySnapshot.docs.map(documentSnapshot => {
+
+                const categories = {
+                  image: documentSnapshot.get('image'),
+                };
+                doc.push(categories);
+              });
+
+              setAvatar(doc);
+            })
            
     }
    

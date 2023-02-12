@@ -12,10 +12,13 @@ import Icon from 'react-native-vector-icons/Entypo'
 import AIcon from 'react-native-vector-icons/AntDesign'
 import { useNavigation } from "@react-navigation/native";
 import { propsStack } from "../Stack/models";
+
+const chatNameMaxLenght = 25;
+const DescNameMaxLenght = 200
 const schema = yup.object({
    
-    ChatName: yup.string().required().max(25),
-    DescName: yup.string().required().max(200),
+    ChatName: yup.string().required().max(chatNameMaxLenght),
+    DescName: yup.string().required().max(DescNameMaxLenght),
  })
 
  type Data = { 
@@ -31,6 +34,15 @@ const schema = yup.object({
  
 
 export default function Form({urls} : MessageData) {
+
+    const [user_uid, setUser_uid] = useState<any>(auth().currentUser?.uid)
+
+  useEffect(() => {
+    const userUID = auth().currentUser?.uid;
+    setUser_uid(userUID)
+
+    
+}, [])
 
     const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
     
@@ -75,6 +87,8 @@ let guid = () => {
         createdAt: firestore.FieldValue.serverTimestamp(),
         id: id,
         image: urls,
+        users: [user_uid,],
+        owner: [user_uid]
 
       })
       .then(( )=> {
@@ -103,11 +117,12 @@ let guid = () => {
 
             <Controller control={control} name="ChatName"
                 render={({ field: { onChange, onBlur, value}}) => (
-                    
+             
                     <View  style={[styles.NameInput, {
                     
                         
                     }]}>
+                        <View style={{flexDirection: 'row', paddingHorizontal: 0, alignItems: 'center'}}>
                     <TextInput style={styles.InputText}
                         onChangeText={onChange}
                         onBlur={onBlur}
@@ -122,7 +137,8 @@ let guid = () => {
 
                   
 
-                    
+                   { value!=undefined ? <Text style={styles.HowLastText}>{chatNameMaxLenght - value.length}</Text> : <View />  }
+                    </View>
 
           
 
@@ -157,6 +173,7 @@ let guid = () => {
                     
                         
                     }]}>
+                         <View style={{flexDirection: 'row', paddingHorizontal: 0, alignItems: 'center'}}>
                     <TextInput style={styles.InputText}
                         onChangeText={onChange}
                         onBlur={onBlur}
@@ -174,9 +191,9 @@ let guid = () => {
 
                     
 
-          
-
+        { value!=undefined ? <Text style={styles.HowLastText}>{DescNameMaxLenght - value.length}</Text> : <View />  }
                     
+                    </View>
 
                    
 < View style={{   borderColor: COLORS.blue,
@@ -236,6 +253,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         
         paddingHorizontal: 25,
+        
        
         
     },
@@ -264,12 +282,20 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Regular',
         fontSize: 16,
         color: COLORS.gray,
-       width: '100%',
+       width: '90%',
       
        paddingVertical: 5,
 
     
      
+    },
+
+    HowLastText: {
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 15,
+        color: COLORS.background.black,
+ 
+       paddingHorizontal: 5,
     },
 
     ChatPictureView: {

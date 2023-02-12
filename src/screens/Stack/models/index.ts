@@ -8,7 +8,10 @@ export  type  propsNavigationStack = {
     Chat: undefined;
     NewChat: undefined;
     Avatar: undefined;
-    SearchImages: undefined
+    SearchImages: undefined,
+    JoinGroup: undefined,
+    InviteGroups: undefined,
+    ChatsInformation: undefined,
 };
 
 export type propsStack = NativeStackNavigationProp<propsNavigationStack>

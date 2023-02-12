@@ -18,7 +18,7 @@ type Data = {
   
 import auth from '@react-native-firebase/auth'
 
-import { Controller, useForm  } from "react-hook-form";
+import { Controller, UseFormRegister, useForm  } from "react-hook-form";
 import { ActivityIndicator } from "react-native";
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -67,6 +67,13 @@ function handleSignIn(data: Data) {
        email: user.email,
        name: data.Username,
        avatar: imageUrl,
+      })
+      const arrayUnion = firestore.FieldValue.arrayUnion(user.uid)
+      firestore()
+      .collection('chats')
+      .doc('Global chat')
+      .update({
+        users: arrayUnion
       })
        
         

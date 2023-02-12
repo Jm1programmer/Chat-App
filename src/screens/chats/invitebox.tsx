@@ -1,14 +1,16 @@
+
+
+
 import { useState, useEffect, JSXElementConstructor } from "react";
-import { Text,View, StyleSheet, TouchableOpacity, Alert, Image} from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Alert, Image} from "react-native";
 import { COLORS } from "../../colors";
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore';
 import Icon from 'react-native-vector-icons/Foundation'
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import moment from 'moment'
-import Markdown from 'react-native-markdown-display';
-import Markdownstyles from "../../styles";
-
+import { useNavigation } from "@react-navigation/native";
+import { propsStack } from "../Stack/models";
 
 type MessagesProps = {
     user_id: string;
@@ -20,47 +22,46 @@ type MessagesProps = {
     idUrl: string;
     createdAt: any;
     avatar: string;
-    type: string
+    type: string,
+
+    GroupName: string,
+    GroupImage: string,
   };
 
-export default function TextBox({userName, user_id, text, date, id, nameUrl, avatar, type}: MessagesProps) {
-    const docUrl = `chats/${nameUrl}/chat`
+export default function InviteBox({userName, user_id, text, date, id, nameUrl, avatar, type, GroupImage, GroupName}: MessagesProps) {
+    const docUrl = `chats/${nameUrl }/chat`
     const [user_uid, setUser_uid] = useState<String>()
     const [deleteIcon, setdeleteIcon] = useState<boolean>(true)
     const [MessageDate, setMessageDate] = useState<Date>(new Date(date))
-    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
-    const [TabBlock, setTabBlock] = useState<boolean>(false)
-
+    const [AvatarimageUrl, setAvatarImageUrl] = useState<string | undefined>(undefined);
+    const [imageUrl, setImageUrl] = useState<string | undefined>(undefined)
+    const navigation = useNavigation<propsStack>()
    
-    var newStr = text.replace(/(")?((https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)))(">(.*)<\/a>)?/gi, function () {
-        return `[${arguments[2]}]` + '(' + arguments[2] + '">' + (arguments[7] || arguments[2]) + ')'
-    });
 
+  
   
     useEffect(() => {
         const userUID = auth().currentUser?.uid;
         setUser_uid(userUID)
-        setImageUrl(avatar)
-        
+        setAvatarImageUrl(avatar)
+        setImageUrl(GroupImage)
     }, [])
-
- 
  
     
    
  
 
     return <>
-
-
     <View style={[styles.TextBox, { justifyContent:  user_id === user_uid ? 'flex-end' : 'flex-start'}]} >
    
         <TouchableOpacity style={styles.avatar}>
-        { imageUrl !== '' ?  <Image style={styles.avatarImg} source={{uri: imageUrl}} resizeMode="cover"  /> : null}
+        { AvatarimageUrl !== '' ?  <Image style={styles.avatarImg} source={{uri: AvatarimageUrl}} resizeMode="cover"  /> : null}
         </TouchableOpacity>
      
-        <TouchableOpacity onLongPress={() => {
-          setTabBlock(!TabBlock)
+        <TouchableOpacity onPress={() => {
+             navigation.navigate('JoinGroup' as never, {name: GroupName, Image: GroupImage, InvitedByUserName: userName} as never, )
+        }} onLongPress={() => {
+           deleteMessage()
             function deleteMessage() {
                 if (user_id === user_uid) {
                     Alert.alert(
@@ -78,7 +79,7 @@ export default function TextBox({userName, user_id, text, date, id, nameUrl, ava
                             onPress: () => {
                                 firestore()
                                 .collection(docUrl)
-                                .doc(`${id}`)
+                                .doc(id)
                                 .delete()
                                 .then(() => {
                                     Alert.alert('Message deleted')
@@ -107,24 +108,32 @@ export default function TextBox({userName, user_id, text, date, id, nameUrl, ava
            
         }}   style={user_id === user_uid ? styles.SendTextBox : styles.ReceivedTextBox} >
             <Text style={[styles.userName, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{userName}</Text>
-
+            <Image style={styles.GroupImage} source={{uri: imageUrl}} />
+            <View style={styles.groupInfoView}>
+            <Text style={[styles.GroupName, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{GroupName}</Text>
+            <Text style={[styles.GroupInfo, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{'group chat invite'}</Text>
+            </View>
+          
+            <View style={{   borderColor: COLORS.background.black,
+          borderWidth: 1,
+       borderRadius: 5,}}/>
+            <View style={styles.seeChat}>
             
-            <Text style={[styles.Text, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{text}</Text>
-         
 
-            <Text style={[styles.date, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{`${moment(MessageDate).fromNow()}`}</Text>
+<Text style={[styles.button, {color: user_id === user_uid ? COLORS.background.white : COLORS.background.black}]}>{'See Chat'}</Text>
+            </View>
             
                     
                 
         </TouchableOpacity>
-       
+
 
        
         
 
         </View>
 
-       
+        
         
     </>
 }
@@ -136,14 +145,13 @@ const styles = StyleSheet.create({
     TextBox: {
         flexDirection: 'row',
         paddingHorizontal: 10,
-        alignItems: 'flex-start',
-    
+        alignItems: 'flex-start'
     },
     ReceivedTextBox: {
         marginHorizontal: 10,
         marginVertical: 5,
         minWidth: 110 ,
-        maxWidth: 330,
+        maxWidth: 300,
      
         minHeight: 50,
        backgroundColor: COLORS.TextBoxGray,
@@ -163,14 +171,14 @@ const styles = StyleSheet.create({
         minHeight: 50,
        backgroundColor: COLORS.blue,
         borderRadius: 10,
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
         paddingVertical: 5,
         alignSelf: 'flex-end',
         color: COLORS.background.white
     },
-    Text: {
-        fontFamily: 'Montserrat-Regular',
-        fontSize: 15,
+    GroupName: {
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 13,
         color: COLORS.background.black,
        
         
@@ -200,17 +208,38 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
     },
-    tabBlock: {
-        width: 90,
-        height: 30,
-        backgroundColor: COLORS.background.white,
-        marginHorizontal: 15,
+    GroupImage: {
+        width: 200,
+        height: 200,
+        borderRadius: 10,
+        marginTop: 10,
+    },
+
+    groupInfoView: {
+    
+      padding: 5,
+     borderRadius: 5,
+     marginTop: 5,  
+     width: '100%',
+     height: 50,
+     justifyContent: 'center'
+    },
+
+    GroupInfo: {
+        fontFamily: 'Montserrat-Regular',
+        fontSize: 13,
+        color: COLORS.background.black,
+       
+    },
+    seeChat: {
         
-        borderRadius: 5,
-        alignSelf: 'flex-end',
-        borderColor: COLORS.TextBoxGray,
-        borderWidth: 1,
-       zIndex: -1,
-        
+        height: 40,
+        justifyContent: 'center'
+    },
+    button: {
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: 19,
+        color: COLORS.background.white,
+        alignSelf: 'center'
     }
 })

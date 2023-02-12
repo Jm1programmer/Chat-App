@@ -1,16 +1,20 @@
 
 
 import React, {useEffect, useState, useRef } from "react";
-import { FlatList, StyleSheet, View} from "react-native";
+import { FlatList, Text, StyleSheet, Dimensions} from "react-native";
 import Contact from "./contact";
 
 
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth'
 
+type MessagesProps = {
+  nameUrl: string;
+  ImageUrl: string;
 
+};
 
-export default function ChatsFlatList() {
+export default function ChatsFlatList({nameUrl, ImageUrl} : MessagesProps) {
 
   const [user_uid, setUser_uid] = useState<any>(auth().currentUser?.uid)
 
@@ -34,20 +38,18 @@ export default function ChatsFlatList() {
               if (querySnapshot) {
                 querySnapshot.docs.map(documentSnapshot => {
                   const users: Array<string> = documentSnapshot.get('users');
-                    if (user_uid) {
-                      if (users.includes(user_uid)) {
+
+                  if (users.includes(user_uid)) {
 
 
-                        const categories = {
-                          name: documentSnapshot.get('name'),
-                          desc: documentSnapshot.get('desc'),
-                          id: documentSnapshot.get('id'),
-                          image: documentSnapshot.get('image')
-                        };
-                        doc.push(categories);
-                      }
-                    }
-                 
+                    const categories = {
+                      name: documentSnapshot.get('name'),
+                      desc: documentSnapshot.get('desc'),
+                      id: documentSnapshot.get('id'),
+                      image: documentSnapshot.get('image')
+                    };
+                    doc.push(categories);
+                  }
                 });
               }
               setChats(doc);
@@ -64,10 +66,9 @@ export default function ChatsFlatList() {
     
   
 return <>
-
-<FlatList 
+        <FlatList 
         data={chats}
-        renderItem={({ item }) =>  <Contact image={""} name={""} desc={""} id={''} {...(item as object)}  />  }
+        renderItem={({ item }) =>  <Contact nameUrl={nameUrl} ImageUrl={ImageUrl} image={""} name={""} desc={""} id={''} {...(item as object)}  />  }
         ref={flatlistRef}
         keyExtractor={({id}) => id}
         horizontal={false}
@@ -75,8 +76,6 @@ return <>
         showsVerticalScrollIndicator={false}
         
          />
-
-       
 
         
     </>

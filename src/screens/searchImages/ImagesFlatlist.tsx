@@ -29,7 +29,7 @@ export default function ImagesFlatList() {
     const [page, setPage] = useState(1)
     const [loading, setLoading] = useState(false)
     
-    const [search, setSearch] = useState<any>('Mario')
+    const [search, setSearch] = useState<string | undefined>(undefined)
 
 
     const { control, handleSubmit, resetField,  formState: {errors}} = useForm<Data>({

@@ -3,7 +3,9 @@ import { COLORS } from "../../colors";
 import AIcon from 'react-native-vector-icons/AntDesign'
 import EIcon from 'react-native-vector-icons/Entypo'
 import { useNavigation } from "@react-navigation/native";
+import firestore from '@react-native-firebase/firestore'
 import { propsStack } from "../Stack/models";
+import { useState } from "react";
 
 type MessagesProps = {
     nameUrl: string,
@@ -12,6 +14,23 @@ type MessagesProps = {
   };
 export default function Header({nameUrl, imageUrl} : MessagesProps) {
     const navigation = useNavigation<propsStack>()
+    const [usersArray, setUsersArray] = useState()
+
+    firestore()
+          .collection(`chats`)
+          .doc(nameUrl)
+          .onSnapshot(documentSnapshot => {
+            const data = documentSnapshot.data();
+            if (data) {
+             
+                setUsersArray(data.users)
+            }
+           
+          })
+
+             
+                
+              
     return <>
 
     <View style={styles.Header}>
@@ -21,18 +40,23 @@ export default function Header({nameUrl, imageUrl} : MessagesProps) {
             <AIcon name={'arrowleft'} size={25} color={COLORS.background.black} />
         </TouchableOpacity>
     
-    <TouchableOpacity style={styles.ContactBox}>
+    <TouchableOpacity style={styles.ContactBox} onPress={() => {
+        navigation.navigate('ChatsInformation' as never, {name: nameUrl, Image: imageUrl, usersArray: usersArray} as never, )
+    }}>
         <View style={styles.profilePictureView}>
             <Image style={styles.profilePicture} source={{uri: imageUrl}} resizeMode="cover" />
         </View>
-        <View style={styles.info}>
+        <View style={styles.info} >
             <Text style={styles.name}>{nameUrl}</Text>
-           
+            <Text style={styles.InfoText}>Tap to view chat data...</Text>
         </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-        <EIcon name={'dots-three-vertical'} size={20} color={COLORS.background.black} />
+        <TouchableOpacity onPress={() => {
+           navigation.navigate('InviteGroups' as never, {name: nameUrl,  Image: imageUrl} as never,)
+
+        }}>
+        <AIcon name={'adduser'} size={30} color={COLORS.background.black} />
 
         </TouchableOpacity>
 
@@ -85,6 +109,9 @@ const styles = StyleSheet.create({
         fontSize: 17,
         fontFamily: 'Montserrat-Regular'
     },
-
+    InfoText: {
+        fontSize: 12,
+        fontFamily: 'Montserrat-Regular'
+    }
     
 })
